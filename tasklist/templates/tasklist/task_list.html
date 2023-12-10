@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block content %}
+  <h2>Task List</h2>
+  {% for task in tasks %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'task_detail' task.id %}">{{ task.title }}</a></h5>
+        <p class="card-text">{{ task.description }}</p>
+        <p class="card-text">Status: {{ task.get_status_display }}</p>  
+        <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+  {% endfor %}
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if tasks.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ tasks.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ tasks.number }} of {{ tasks.paginator.num_pages }}.
+        </span>
+
+        {% if tasks.has_next %}
+            <a href="?page={{ tasks.next_page_number }}">next</a>
+            <a href="?page={{ tasks.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+{% endblock %}

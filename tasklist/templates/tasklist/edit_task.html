@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Task{% endblock %}
+
+{% block content %}
+  <h2>Edit Task</h2>
+  <form method="post" action="{% url 'edit_task' task.id %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" class="form-control" id="title" name="title" value="{{ task.title }}" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea class="form-control" id="description" name="description" required>{{ task.description }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="status">Status:</label>
+      <select class="form-control" id="status" name="status">
+        <option value="new" {% if task.status == 'new' %}selected{% endif %}>New</option>
+        <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+        <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+{% endblock %}
